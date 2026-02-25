@@ -69,51 +69,71 @@ export default function CategoriasPage() {
     }
   };
 
-  if (loading) return <p className="text-slate-600">Cargando categorías...</p>;
+  if (loading) {
+    return (
+      <div className="flex min-h-[160px] items-center justify-center text-sm text-slate-500">
+        Cargando categorías...
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">Categorías</h1>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Categorías</h1>
+          <p className="text-sm text-slate-500">
+            Define y organiza las categorías que utilizarás para clasificar tus gastos.
+          </p>
+        </div>
         <button
           onClick={openCreate}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-600 via-indigo-600 to-violet-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/40 hover:-translate-y-0.5 hover:shadow-lg transition-all"
         >
           Nueva categoría
         </button>
       </div>
+
       {error && (
-        <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">{error}</div>
+        <div className="rounded-2xl border border-red-100 bg-red-50/80 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
       )}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-        <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+
+      <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-md shadow-slate-200/80">
+        <table className="min-w-full divide-y divide-slate-200 text-sm">
+          <thead className="bg-slate-50/80">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-600 uppercase">Nombre</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-slate-600 uppercase">Acciones</th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                Nombre
+              </th>
+              <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                Acciones
+              </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className="divide-y divide-slate-100">
             {categorias.length === 0 ? (
               <tr>
-                <td colSpan={2} className="px-4 py-8 text-center text-slate-500">
-                  No hay categorías. Crea la primera.
+                <td colSpan={2} className="px-4 py-10 text-center text-sm text-slate-500">
+                  No hay categorías aún. Crea tu primera categoría para empezar a clasificar
+                  tus gastos.
                 </td>
               </tr>
             ) : (
               categorias.map((c) => (
-                <tr key={c.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3 text-slate-800 font-medium">{c.nombre}</td>
+                <tr key={c.id} className="hover:bg-slate-50/80">
+                  <td className="px-4 py-3 text-slate-900 font-medium">{c.nombre}</td>
                   <td className="px-4 py-3 text-right space-x-2">
                     <button
                       onClick={() => openEdit(c)}
-                      className="text-amber-600 hover:text-amber-800 text-sm font-medium"
+                      className="inline-flex items-center rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-200 transition-colors"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => handleDelete(c.id)}
-                      className="text-red-600 hover:text-red-800 text-sm font-medium"
+                      className="inline-flex items-center rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100 hover:border-red-200 transition-colors"
                     >
                       Eliminar
                     </button>
@@ -126,8 +146,8 @@ export default function CategoriasPage() {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-10 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-2xl shadow-slate-900/30">
             <h2 className="text-xl font-bold text-slate-800 mb-4">
               {editingId ? 'Editar categoría' : 'Nueva categoría'}
             </h2>
@@ -138,7 +158,7 @@ export default function CategoriasPage() {
                   type="text"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
                   placeholder="Ej. Comida, Transporte"
                   required
                 />
@@ -146,14 +166,14 @@ export default function CategoriasPage() {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-600 via-indigo-600 to-violet-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/40 hover:-translate-y-0.5 hover:shadow-lg transition-all"
                 >
                   {editingId ? 'Guardar' : 'Crear'}
                 </button>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-100"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-slate-300 hover:bg-slate-50 transition-colors"
                 >
                   Cancelar
                 </button>
